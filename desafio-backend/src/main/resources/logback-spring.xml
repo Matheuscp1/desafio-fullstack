@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" >
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <!-- Include default Spring Boot Logback configurations -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!-- Define the log file location -->
+    <!-- Include default CONSOLE and FILE appenders -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+
+    <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <loggerName/>
+                <logLevel/>
+                <message/>
+                <threadName/>
+                <context/>
+                <mdc/>
+            </providers>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}-%d{yyyy-MM-dd}.json</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- All available configurations and default values are shown -->
+        <appender-ref ref="CONSOLE" />
+        <queueSize>256</queueSize>
+        <!-- <discardingThreshold></discardingThreshold> -->
+        <includeCallerData>false</includeCallerData>
+        <!-- <maxFlushTime></maxFlushTime> -->
+        <neverBlock>false</neverBlock>
+    </appender>
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <!--
+    Configure the root logger to use your custom appenders.
+    Choose between console logging (ASYNC_CONSOLE) and file logging (ASYNC_FILE) based on your specific use case and requirements.
+    -->
+    <root level="INFO">
+        <appender-ref ref="ASYNC_CONSOLE" />
+        <!-- Contrary to the default configuration, ASYNC_FILE logging is enabled even if logging.file.name or logging.file.path is not used -->
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+</configuration>

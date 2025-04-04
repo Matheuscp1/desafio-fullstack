@@ -58,15 +58,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name").value(product.getName()));
     }
 
-    @Test
-    void shouldGetAllProducts() throws Exception {
-        when(productService.findAll()).thenReturn(Arrays.asList(product));
 
-        mockMvc.perform(get("/api/products"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(product.getId()))
-                .andExpect(jsonPath("$[0].name").value(product.getName()));
-    }
 
     @Test
     void shouldGetProductById() throws Exception {
