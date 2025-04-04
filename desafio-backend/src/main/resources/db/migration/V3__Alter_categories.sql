@@ -1,0 +1,7 @@
+ALTER TABLE categories
+ALTER
+COLUMN description TYPE VARCHAR(255);
+
+ALTER TABLE categories
+ALTER
+COLUMN name TYPE VARCHAR(100);
