@@ -1,0 +1,79 @@
+# Ignore build directories
+/target/
+/build/
+/out/
+
+# Ignore logs
+*.log
+
+# Ignore IDE files
+# Eclipse
+.metadata/
+*.log
+*.bak
+*.swp
+*.class
+*.project
+*.classpath
+.idea/
+.vscode/
+
+# Ignore dependency directories
+/.mvn/
+/node_modules/
+
+# Ignore environment files (senha, chaves, etc)
+.env
+application.properties
+application.yml
+
+# Ignore compiled class files
+*.class
+
+# Ignore package manager files for Angular
+npm-debug.log
+yarn-error.log
+
+# Ignore Angular build output
+/dist/
+/out-tsc/
+
+# Ignore coverage reports for Angular
+/coverage/
+
+# Ignore Angular temporary files
+/.angular/
+
+# Ignore compiled files for Java
+*.jar
+*.war
+*.ear
+
+# Ignore Maven and Gradle wrapper
+/.mvn/
+.mvnw
+.mvnw.cmd
+.gradle/
+build.gradle
+settings.gradle
+.gradle-wrapper/
+
+# Ignore IntelliJ IDEA project files
+.idea/
+
+# Ignore generated files by Angular CLI
+angular.json
+tsconfig.json
+tslint.json
+karma.conf.js
+
+# Ignore files related to Docker
+.docker/
+
+# Ignore IDE specific files for JetBrains and VSCode
+.idea/
+.vscode/
+
+# Ignore other system files (Mac, Windows, etc.)
+.DS_Store
+Thumbs.db
