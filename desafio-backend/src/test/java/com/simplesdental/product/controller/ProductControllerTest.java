@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -59,6 +62,16 @@ public class ProductControllerTest {
     }
 
 
+    @Test
+    void shouldGetAllProducts() throws Exception {
+        Page<Product> page = new PageImpl<>(Arrays.asList(product), PageRequest.of(0, 10), 1);
+        when(productService.findAll(PageRequest.of(0, 10))).thenReturn(page);
+
+        mockMvc.perform(get("/api/products?page=0&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").value(product.getId()))
+                .andExpect(jsonPath("$.content[0].name").value(product.getName()));
+    }
 
     @Test
     void shouldGetProductById() throws Exception {

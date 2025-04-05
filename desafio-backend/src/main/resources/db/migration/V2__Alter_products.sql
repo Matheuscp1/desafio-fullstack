@@ -16,3 +16,7 @@ ALTER TABLE products
 ALTER TABLE products
     ALTER
         COLUMN price TYPE DECIMAL;
+
+ALTER TABLE products
+    ADD
+        COLUMN code_int INT;

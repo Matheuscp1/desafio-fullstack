@@ -8,12 +8,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -53,6 +53,19 @@ public class ProductServiceTest {
     }
 
 
+    @Test
+    void shouldGetAllProducts() {
+        PageRequest pageRequest = PageRequest.of(0, 10);
+
+        Page<Product> page = new PageImpl<>(Arrays.asList(product), pageRequest, 1);
+        when(productRepository.findAll(pageRequest)).thenReturn(page);
+
+        Page<Product> products = productService.findAll(pageRequest);
+
+        assertThat(products.getContent()).isNotNull();
+        assertThat(products.getTotalElements()).isEqualTo(1);
+        verify(productRepository, times(1)).findAll(pageRequest);
+    }
 
     @Test
     void shouldGetProductById() {
