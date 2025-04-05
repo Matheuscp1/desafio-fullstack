@@ -2,13 +2,14 @@ package com.simplesdental.product.service;
 
 import com.simplesdental.product.model.Product;
 import com.simplesdental.product.repository.ProductRepository;
+import com.simplesdental.product.utils.PageableQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,9 +24,12 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Page<Product> findAll(Pageable pageable) {
+    public Page<Product> findAll(PageableQuery filter) {
         logger.info("findAll");
-        return productRepository.findAll(pageable);
+        Map<String, String> allowedSortFields = Map.ofEntries(
+                Map.entry("id", "id")
+        );
+        return productRepository.findAll(PageableQuery.toPageable(filter,allowedSortFields));
     }
 
     public Optional<Product> findById(Long id) {

@@ -1,18 +1,19 @@
 package com.simplesdental.product.controller;
 
 import com.simplesdental.product.model.Category;
+import com.simplesdental.product.openapi.CategoryControllerOpenApi;
 import com.simplesdental.product.service.CategoryService;
+import com.simplesdental.product.utils.PageableQuery;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/categories")
-public class CategoryController {
+public class CategoryController implements CategoryControllerOpenApi {
 
     private final CategoryService categoryService;
 
@@ -22,8 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAllCategories() {
-        return categoryService.findAll();
+    public Page<Category> getAllCategories(PageableQuery filter) {
+        return categoryService.findAll(filter);
     }
 
     @GetMapping("/{id}")

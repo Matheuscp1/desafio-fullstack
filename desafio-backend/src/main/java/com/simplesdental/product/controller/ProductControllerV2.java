@@ -1,12 +1,13 @@
 package com.simplesdental.product.controller;
 
 import com.simplesdental.product.model.Product;
+import com.simplesdental.product.openapi.ProductControllerV2OpenApi;
 import com.simplesdental.product.service.ProductService;
+import com.simplesdental.product.utils.PageableQuery;
 import jakarta.validation.Valid;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v2/products")
-public class ProductControllerV2 {
+public class ProductControllerV2  implements ProductControllerV2OpenApi {
 
     private final ProductService productService;
 
@@ -31,7 +32,7 @@ public class ProductControllerV2 {
     }
 
     @GetMapping
-    public Page<Product> getAllProducts(Pageable pageable) {
+    public Page<Product> getAllProducts(PageableQuery pageable) {
         Page<Product> products = productService.findAll(pageable);
         products.forEach(product -> {
             if (product.getCategory() != null) {
