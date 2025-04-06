@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:host {
+ flex-grow: 1;
+}
+
+ input:focus ~ .input-text,
+ input:not(:placeholder-shown) ~ .input-text{
+   @apply text-blue-500 bg-[#F4F3F6] transform -translate-y-8 -translate-x-2 scale-75;
+ }
+ 
+ .input-bg{
+  background-color: #F4F3F6;
+ }
+
+ 
+ .border-bg{
+  border-color: #a9a9a9;
+ }

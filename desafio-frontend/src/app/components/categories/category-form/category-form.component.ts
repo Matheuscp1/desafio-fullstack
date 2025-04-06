@@ -1,3 +1,5 @@
+import { CustomTextAreaComponent } from './../../custom-textarea/custom-textarea.component';
+import { CustomInputComponent } from './../../custom-input/custom-input.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -24,7 +26,9 @@ import { CategoryService } from '../../../services/category.service';
     MatInputModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CustomInputComponent,
+    CustomTextAreaComponent
   ],
   templateUrl: './category-form.component.html',
   styleUrls: ['./category-form.component.scss']

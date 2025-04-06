@@ -47,7 +47,7 @@ export class CategoryListComponent implements OnInit {
     this.loading = true;
     this.categoryService.getAllCategories().subscribe({
       next: (data) => {
-        this.categories = data;
+        this.categories = data.content;
         this.loading = false;
       },
       error: (error) => {

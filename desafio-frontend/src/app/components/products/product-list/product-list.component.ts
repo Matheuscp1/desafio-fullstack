@@ -47,7 +47,7 @@ export class ProductListComponent implements OnInit {
     this.loading = true;
     this.productService.getAllProducts().subscribe({
       next: (data) => {
-        this.products = data;
+        this.products = data.content;
         this.loading = false;
       },
       error: (error) => {

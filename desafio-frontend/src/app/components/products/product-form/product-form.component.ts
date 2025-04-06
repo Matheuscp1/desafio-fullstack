@@ -1,3 +1,6 @@
+import { CustomTextAreaComponent } from './../../custom-textarea/custom-textarea.component';
+import { CustomSelectComponent } from './../../custom-select/custom-select.component';
+import { CustomInputComponent } from './../../custom-input/custom-input.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -30,7 +33,10 @@ import { Category } from '../../../models/category.model';
     MatSelectModule,
     MatCheckboxModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CustomSelectComponent,
+    CustomInputComponent,
+    CustomTextAreaComponent
   ],
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
@@ -78,7 +84,7 @@ export class ProductFormComponent implements OnInit {
   loadCategories(): void {
     this.categoryService.getAllCategories().subscribe({
       next: (data) => {
-        this.categories = data;
+        this.categories = data.content;
       },
       error: (error) => {
         console.error('Error loading categories', error);

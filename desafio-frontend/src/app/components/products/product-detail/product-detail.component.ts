@@ -1,3 +1,4 @@
+import { CustomSelectComponent } from './../../custom-select/custom-select.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -50,6 +51,7 @@ export class ProductDetailComponent implements OnInit {
     this.loading = true;
     this.productService.getProductById(this.productId).subscribe({
       next: (data) => {
+        console.log(data)
         this.product = data;
         this.loading = false;
       },

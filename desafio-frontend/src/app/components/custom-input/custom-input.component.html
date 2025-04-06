@@ -1,0 +1,27 @@
+<div class="w-full  mb-10 mt-5">
+  <label [for]="formControlName" class="relative cursor-pointer">
+    <input
+      [placeholder]="placeholder"
+      class="h-14 w-full border-gray-500 px-6 text-lg input-bg border-white border-2 rounded-lg border-opacity-50
+       outline-none focus:border-blue-500 placeholder-gray-300 focus:placeholder-opacity-100 placeholder-black
+        placeholder-opacity-0 transition duration-200 border-bg"
+      [type]="type"
+      [(ngModel)]="value"
+      [id]="formControlName"
+      (change)="onChange(value)"
+      (blur)="onTouched()"
+      [class.invalid]="
+        formControl.invalid && (formControl.dirty || formControl.touched)
+      "
+    />
+    <span
+      class="text-4 text-black text-opacity-80 text-black bg-white absolute
+       left-5 input-bg top-px    px-1 transition duration-200 input-text"
+    >
+      <ng-content></ng-content>
+      <ng-container *ngIf="formControl.getError('required')"
+        ><span class="text-red-500 text-md">*</span></ng-container
+      >
+    </span>
+  </label>
+</div>
