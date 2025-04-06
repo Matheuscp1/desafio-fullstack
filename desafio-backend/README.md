@@ -35,7 +35,7 @@ Você deve ajustar as entidades (model e sql) de acordo com as regras abaixo:
 - Documentar todos os endpoints com:
   - Descrições detalhadas.
   - Exemplos de JSON para requisições e respostas.
-  - Listagem de códigos HTTP e mensagens de erro.
+  - Listagem de cód*igos HTTP e mensagens de erro.*
 
 ## 6. Autenticação e Gerenciamento de Usuários
 - Criar a tabela `users` com as colunas:

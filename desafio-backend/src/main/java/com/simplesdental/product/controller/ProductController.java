@@ -35,6 +35,7 @@ public class ProductController implements ProductControllerOpenApi {
         return products;
     }
 
+    @Override
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         return productService.findById(id)
@@ -48,12 +49,14 @@ public class ProductController implements ProductControllerOpenApi {
 
     }
 
+    @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product createProduct(@Valid @RequestBody Product product) {
         return productService.save(product);
     }
 
+    @Override
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         return productService.findById(id)
@@ -64,6 +67,7 @@ public class ProductController implements ProductControllerOpenApi {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         return productService.findById(id)
