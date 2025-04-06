@@ -18,8 +18,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthenticationService {
@@ -30,6 +32,10 @@ public class AuthenticationService {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
@@ -62,9 +68,14 @@ public class AuthenticationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null && authentication.getPrincipal() != "anonymousUser") {
             User user = (User) authentication.getPrincipal();
-            user.getId();
+            UserDTO userCache = (UserDTO) redisTemplate.opsForValue().get("user:" + user.getId());
+            if (userCache != null) {
+                return userCache;
+            }
             Optional<User> userDetails = repository.findById(user.getId());
-            return new UserDTO(userDetails.get());
+            UserDTO userDto =  new UserDTO(userDetails.get());
+            redisTemplate.opsForValue().set("user:" + userDetails.get().getId(), userDto, 10, TimeUnit.MINUTES);
+            return userDto;
         }
         return null;
     }
@@ -78,6 +89,8 @@ public class AuthenticationService {
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
             userDetails.get().setPassword(encryptedPassword);
             repository.save(userDetails.get());
+            redisTemplate.delete("user:" + userDetails.get().getId());
+
             return new UserDTO(userDetails.get());
         }
         return null;
