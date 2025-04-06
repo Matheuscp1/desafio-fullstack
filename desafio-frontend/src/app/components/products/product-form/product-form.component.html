@@ -36,7 +36,7 @@
         </app-custom-input>
 
         <app-custom-input
-          [type]="'text'"
+          [type]="'number'"
           formControlName="code"
           placeholder="Product code"
         >
@@ -45,7 +45,6 @@
 
         <app-custom-select formControlName="categoryId">
           Category
-          <option value="">Selecione um Menu Pai</option>
           <option
             [value]="category.id"
             [selected]="productForm.get('categoryId')?.value == category.id"

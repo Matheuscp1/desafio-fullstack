@@ -68,4 +68,11 @@
       </div>
     </mat-card-content>
   </mat-card>
+
+  <app-pagination 
+  [currentPage]="currentPage" 
+  [totalPages]="pages" 
+  [size]="size"
+  (pageChange)="onPageChange($event)"
+  ></app-pagination>
 </div>

@@ -1,3 +1,4 @@
+import { PaginationComponent } from './../../pagination/pagination.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -24,7 +25,8 @@ import { CategoryService } from '../../../services/category.service';
     MatCardModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PaginationComponent
   ],
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
@@ -33,6 +35,10 @@ export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
   displayedColumns: string[] = ['id', 'name', 'description', 'actions'];
   loading = true;
+  pages = 0;
+  size = 5;
+  currentPage = 0;
+  totalPages = 10;
 
   constructor(
     private categoryService: CategoryService,
@@ -45,8 +51,9 @@ export class CategoryListComponent implements OnInit {
 
   loadCategories(): void {
     this.loading = true;
-    this.categoryService.getAllCategories().subscribe({
+    this.categoryService.getAllCategories(this.currentPage, this.size).subscribe({
       next: (data) => {
+        this.pages = data.totalPages;
         this.categories = data.content;
         this.loading = false;
       },
@@ -71,5 +78,11 @@ export class CategoryListComponent implements OnInit {
         }
       });
     }
+  }
+
+  onPageChange(page: any) {
+    this.currentPage = page.page;
+    this.size = page.size;
+    this.loadCategories();
   }
 }

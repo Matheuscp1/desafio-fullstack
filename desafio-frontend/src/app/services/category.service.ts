@@ -13,8 +13,8 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-   getAllCategories(): Observable<PageResponse<Category>>{
-    return this.http.get<PageResponse<Category>>(`${this.apiUrl}/categories`);
+   getAllCategories(page:number = 0,size:number = 10): Observable<PageResponse<Category>>{
+    return this.http.get<PageResponse<Category>>(`${this.apiUrl}/categories?page=${page}&size=${size}`);
   }
 
   getCategoryById(id: number): Observable<Category> {

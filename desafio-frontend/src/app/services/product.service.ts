@@ -13,23 +13,23 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts(): Observable<PageResponse<Product>> {
-    return this.http.get<PageResponse<Product>>(`${this.apiUrl}/products`);
+  getAllProducts(page:number = 0,size:number = 10): Observable<PageResponse<Product>> {
+    return this.http.get<PageResponse<Product>>(`${this.apiUrl}/v2/products?page=${page}&size=${size}`);
   }
 
   getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiUrl}/products/${id}`);
+    return this.http.get<Product>(`${this.apiUrl}/v2/products/${id}`);
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}/products`, product);
+    return this.http.post<Product>(`${this.apiUrl}/v2/products`, product);
   }
 
   updateProduct(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.apiUrl}/products/${id}`, product);
+    return this.http.put<Product>(`${this.apiUrl}/v2/products/${id}`, product);
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/products/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/v2/products/${id}`);
   }
 }

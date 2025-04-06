@@ -1,3 +1,4 @@
+import { PaginationComponent } from './../../pagination/pagination.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,7 +17,7 @@ import { ProductService } from '../../../services/product.service';
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     RouterModule,
     MatTableModule,
     MatButtonModule,
@@ -24,20 +25,32 @@ import { ProductService } from '../../../services/product.service';
     MatCardModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    PaginationComponent,
   ],
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
-  displayedColumns: string[] = ['id', 'name', 'price', 'status', 'code', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'name',
+    'price',
+    'status',
+    'code',
+    'actions',
+  ];
   loading = true;
+  pages = 0;
+  size = 5;
+  currentPage = 0;
+  totalPages = 10;
 
   constructor(
     private productService: ProductService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -45,16 +58,19 @@ export class ProductListComponent implements OnInit {
 
   loadProducts(): void {
     this.loading = true;
-    this.productService.getAllProducts().subscribe({
+    this.productService.getAllProducts(this.currentPage, this.size).subscribe({
       next: (data) => {
+        this.pages = data.totalPages;
         this.products = data.content;
         this.loading = false;
       },
       error: (error) => {
         console.error('Error fetching products', error);
-        this.snackBar.open('Error loading products', 'Close', { duration: 3000 });
+        this.snackBar.open('Error loading products', 'Close', {
+          duration: 3000,
+        });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -62,14 +78,24 @@ export class ProductListComponent implements OnInit {
     if (confirm('Are you sure you want to delete this product?')) {
       this.productService.deleteProduct(id).subscribe({
         next: () => {
-          this.snackBar.open('Product deleted successfully', 'Close', { duration: 3000 });
+          this.snackBar.open('Product deleted successfully', 'Close', {
+            duration: 3000,
+          });
           this.loadProducts();
         },
         error: (error) => {
           console.error('Error deleting product', error);
-          this.snackBar.open('Error deleting product', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('Error deleting product', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
+  }
+
+  onPageChange(page: any) {
+    this.currentPage = page.page;
+    this.size = page.size;
+    this.loadProducts();
   }
 }

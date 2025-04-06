@@ -97,12 +97,13 @@ export class ProductFormComponent implements OnInit {
     this.loading = true;
     this.productService.getProductById(id).subscribe({
       next: (product) => {
+        console.log(product.codeInt)
         this.productForm.patchValue({
           name: product.name,
           description: product.description || '',
           price: product.price,
           status: product.status,
-          code: product.code || '',
+          code: product.codeInt || '',
           categoryId: product.category?.id || ''
         });
         this.loading = false;

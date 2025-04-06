@@ -6,7 +6,7 @@
   <mat-card class="product-card" *ngIf="!loading && product">
     <mat-card-header>
       <mat-card-title>{{ product.name }}</mat-card-title>
-      <mat-card-subtitle *ngIf="product.code">Code: {{ product.code }}</mat-card-subtitle>
+      <mat-card-subtitle *ngIf="product.codeInt">Code: {{ product.codeInt }}</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>

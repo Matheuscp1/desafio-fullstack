@@ -4,6 +4,6 @@ export interface Product {
   description?: string;
   price: number;
   status: boolean;
-  code?: string;
+  codeInt?: number;
   category?: any;
 }
