@@ -29,13 +29,14 @@ public class SpringDocConfig {
                                 new Tag().name("Auth").description("Autenticação")
 
                         )
-                ).addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                ).addSecurityItem(new SecurityRequirement().addList("bearer"))
                 .components(new io.swagger.v3.oas.models.Components()
-                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                        .addSecuritySchemes("bearer", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("JWT")
                                 .description("JWT Authorization header using the Bearer scheme")));
+
     }
 
 }

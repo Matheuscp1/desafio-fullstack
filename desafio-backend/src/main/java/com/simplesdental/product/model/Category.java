@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Category {
 
     @Id
@@ -33,7 +35,7 @@ public class Category {
     private String name;
 
     @Column(length = 255)
-    @Size(max = 255, message = "Campo description deve ter no maximo 100 caracteres")
+    @Size(max = 255, message = "Campo description deve ter no maximo 255 caracteres")
     private String description;
 
     @OneToMany(mappedBy = "category")

@@ -1,5 +1,6 @@
 package com.simplesdental.product.openapi;
 
+import com.simplesdental.product.dto.ProductInputV2DTO;
 import com.simplesdental.product.model.Product;
 import com.simplesdental.product.swagger.annotations.PageableParameter;
 import com.simplesdental.product.utils.PageableQuery;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = "bearer")
 @Tag(name = "Produtos-v2")
 public interface ProductControllerV2OpenApi {
 
@@ -45,7 +46,7 @@ public interface ProductControllerV2OpenApi {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content())
 	})
 	@Operation(summary = "Cria um produto")
-	Product createProduct(@RequestBody Product product);
+	Product createProduct(@RequestBody ProductInputV2DTO product);
 
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "201", description = "Ok"),
@@ -54,8 +55,8 @@ public interface ProductControllerV2OpenApi {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content())
 	})
 	@Operation(summary = "Atualiza um produto")
-	ResponseEntity<Product> updateProduct(@Parameter(description = "Id ", example = "aId", required = true) final Long id,
-						  @RequestBody Product product);
+	Product updateProduct(@Parameter(description = "Id ", example = "aId", required = true) final Long id,
+						  @RequestBody ProductInputV2DTO product);
 
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "No Content"),

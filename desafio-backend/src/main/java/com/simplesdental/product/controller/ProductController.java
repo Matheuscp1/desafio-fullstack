@@ -1,5 +1,6 @@
 package com.simplesdental.product.controller;
 
+import com.simplesdental.product.dto.ProductInputDTO;
 import com.simplesdental.product.model.Product;
 import com.simplesdental.product.openapi.ProductControllerOpenApi;
 import com.simplesdental.product.service.ProductService;
@@ -52,19 +53,14 @@ public class ProductController implements ProductControllerOpenApi {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@Valid @RequestBody Product product) {
+    public Product createProduct(@Valid @RequestBody ProductInputDTO product) {
         return productService.save(product);
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
-        return productService.findById(id)
-                .map(existingProduct -> {
-                    product.setId(id);
-                    return ResponseEntity.ok(productService.save(product));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductInputDTO product) {
+        return productService.update(id,product);
     }
 
     @Override

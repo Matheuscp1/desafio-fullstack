@@ -30,6 +30,8 @@ public class TokenService {
                     .withSubject(user.getEmail())
                     .withExpiresAt(genExpirationDate())
                     .withIssuedAt(now)
+                    .withClaim("id", user.getId())
+                    .withClaim("name", user.getName())
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             logger.error("Error while generating token");

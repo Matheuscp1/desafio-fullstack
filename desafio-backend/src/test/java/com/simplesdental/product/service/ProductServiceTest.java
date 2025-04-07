@@ -1,7 +1,9 @@
 package com.simplesdental.product.service;
 
+import com.simplesdental.product.dto.ProductInputDTO;
 import com.simplesdental.product.model.Product;
 import com.simplesdental.product.repository.ProductRepository;
+import com.simplesdental.product.utils.PageableQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,12 +29,11 @@ public class ProductServiceTest {
     @InjectMocks
     private ProductService productService;
 
-    private Product product;
+    private ProductInputDTO product;
 
     @BeforeEach
     void setUp() {
-        product = new Product();
-        product.setId(1L);
+        product = new ProductInputDTO();
         product.setName("Test Product");
         product.setDescription("Test Description");
         product.setPrice(new BigDecimal("19.99"));
@@ -42,7 +43,9 @@ public class ProductServiceTest {
 
     @Test
     void shouldSaveProduct() {
-        when(productRepository.save(any(Product.class))).thenReturn(product);
+        Product entitie = product.toEntitie();
+        entitie.setId(1L);
+        when(productRepository.save(any(Product.class))).thenReturn(entitie);
 
         Product savedProduct = productService.save(product);
 
@@ -57,10 +60,10 @@ public class ProductServiceTest {
     void shouldGetAllProducts() {
         PageRequest pageRequest = PageRequest.of(0, 10);
 
-        Page<Product> page = new PageImpl<>(Arrays.asList(product), pageRequest, 1);
+        Page<Product> page = new PageImpl<>(Arrays.asList(product.toEntitie()), pageRequest, 1);
         when(productRepository.findAll(pageRequest)).thenReturn(page);
-
-        Page<Product> products = productService.findAll(pageRequest);
+        PageableQuery pageQuery = new PageableQuery();
+        Page<Product> products = productService.findAll(pageQuery);
 
         assertThat(products.getContent()).isNotNull();
         assertThat(products.getTotalElements()).isEqualTo(1);
@@ -69,7 +72,7 @@ public class ProductServiceTest {
 
     @Test
     void shouldGetProductById() {
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product.toEntitie()));
 
         Optional<Product> foundProduct = productService.findById(1L);
 

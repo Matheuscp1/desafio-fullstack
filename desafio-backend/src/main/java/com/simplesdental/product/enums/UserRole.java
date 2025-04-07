@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.simplesdental.product.exception.UserRoleException;
 
 public enum UserRole {
-    admin("admin"),
-    user("user");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private String role;
 

@@ -1,5 +1,6 @@
 package com.simplesdental.product.controller;
 
+import com.simplesdental.product.dto.CreateCatoryDTO;
 import com.simplesdental.product.model.Category;
 import com.simplesdental.product.openapi.CategoryControllerOpenApi;
 import com.simplesdental.product.service.CategoryService;
@@ -39,17 +40,18 @@ public class CategoryController implements CategoryControllerOpenApi {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Category createCategory(@Valid @RequestBody Category category) {
-        return categoryService.save(category);
+    public Category createCategory(@Valid @RequestBody CreateCatoryDTO category) {
+        return categoryService.save(category.toEntitie());
     }
 
     @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody CreateCatoryDTO category) {
         return categoryService.findById(id)
                 .map(existingCategory -> {
-                    category.setId(id);
-                    return ResponseEntity.ok(categoryService.save(category));
+                    Category entitie = category.toEntitie();
+                    entitie.setId(id);
+                    return ResponseEntity.ok(categoryService.save(entitie));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

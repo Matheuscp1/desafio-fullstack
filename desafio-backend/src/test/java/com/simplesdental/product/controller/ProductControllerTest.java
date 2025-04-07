@@ -1,8 +1,10 @@
 package com.simplesdental.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simplesdental.product.dto.ProductInputDTO;
 import com.simplesdental.product.model.Product;
 import com.simplesdental.product.service.ProductService;
+import com.simplesdental.product.utils.PageableQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +53,7 @@ public class ProductControllerTest {
 
     @Test
     void shouldCreateProduct() throws Exception {
-        when(productService.save(any(Product.class))).thenReturn(product);
+        when(productService.save(any(ProductInputDTO.class))).thenReturn(product);
 
         mockMvc.perform(post("/api/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -65,7 +67,8 @@ public class ProductControllerTest {
     @Test
     void shouldGetAllProducts() throws Exception {
         Page<Product> page = new PageImpl<>(Arrays.asList(product), PageRequest.of(0, 10), 1);
-        when(productService.findAll(PageRequest.of(0, 10))).thenReturn(page);
+        PageableQuery pageQuery = new PageableQuery();
+        when(productService.findAll(pageQuery)).thenReturn(page);
 
         mockMvc.perform(get("/api/products?page=0&size=10"))
                 .andExpect(status().isOk())
@@ -94,7 +97,7 @@ public class ProductControllerTest {
     @Test
     void shouldUpdateProduct() throws Exception {
         when(productService.findById(1L)).thenReturn(Optional.of(product));
-        when(productService.save(any(Product.class))).thenReturn(product);
+        when(productService.save(any(ProductInputDTO.class))).thenReturn(product);
 
         mockMvc.perform(put("/api/products/1")
                 .contentType(MediaType.APPLICATION_JSON)

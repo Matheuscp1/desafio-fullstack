@@ -54,7 +54,7 @@ public class User implements UserDetails {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private UserRole role = UserRole.user;
+	private UserRole role = UserRole.USER;
 
 	public User(String login, String password, UserRole role) {
 		this.email = login;
@@ -64,11 +64,9 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-
-		if (this.role == UserRole.admin)
-			return List.of(new SimpleGrantedAuthority("admin"), new SimpleGrantedAuthority("user"));
-		else
-			return List.of(new SimpleGrantedAuthority("user"));
+		if(this.role == UserRole.ADMIN)
+			return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+		else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override

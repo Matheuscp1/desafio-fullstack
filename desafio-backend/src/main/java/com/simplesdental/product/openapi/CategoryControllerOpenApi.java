@@ -1,5 +1,6 @@
 package com.simplesdental.product.openapi;
 
+import com.simplesdental.product.dto.CreateCatoryDTO;
 import com.simplesdental.product.model.Category;
 import com.simplesdental.product.swagger.annotations.PageableParameter;
 import com.simplesdental.product.utils.PageableQuery;
@@ -14,7 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@SecurityRequirement(name = "bearerAuth")
+@SecurityRequirement(name = "bearer")
 @Tag(name = "Categoria")
 public interface CategoryControllerOpenApi {
 
@@ -45,7 +46,7 @@ public interface CategoryControllerOpenApi {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content())
 	})
 	@Operation(summary = "Cria uma categoria")
-	Category createCategory(@RequestBody Category category);
+	Category createCategory(@RequestBody CreateCatoryDTO category);
 
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Ok"),
@@ -55,7 +56,7 @@ public interface CategoryControllerOpenApi {
 	})
 	@Operation(summary = "Atualiza uma categoria")
 	ResponseEntity<Category> updateCategory(@Parameter(description = "Id ", example = "aId", required = true) final Long id,
-											@RequestBody Category category);
+											@RequestBody CreateCatoryDTO category);
 
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "No Content"),

@@ -1,6 +1,8 @@
 package com.simplesdental.product.dto;
 
+import com.simplesdental.product.enums.UserRole;
 import com.simplesdental.product.model.User;
+import com.simplesdental.product.validation.ValueOfEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -28,6 +30,9 @@ public class CreateUserDTO {
     @Size(max = 80, message = "Campo password deve ter no maximo 80 caracteres")
     private String password;
 
+    @ValueOfEnum(enumClass = UserRole.class, message = "Valores permitidos 'admin' OU 'user'")
+    private String role;
+
 
     public CreateUserDTO(User user) {
         this.name = user.getName();
@@ -36,11 +41,11 @@ public class CreateUserDTO {
     }
 
     public User toEntitie() {
-        new User();
         return User.builder()
                 .name(this.name)
                 .password(this.password)
                 .email(this.email)
+                .role(UserRole.valueOf(this.role))
                 .build();
     }
 }

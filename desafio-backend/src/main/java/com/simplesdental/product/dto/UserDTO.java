@@ -27,7 +27,7 @@ public class UserDTO{
     private String email;
 
     @ValueOfEnum(enumClass = UserRole.class, message = "Valores permitidos 'ADMIN' OU 'USER'")
-    private UserRole role = UserRole.user;
+    private UserRole role = UserRole.USER;
 
     public UserDTO(User user) {
         this.id = user.getId();
