@@ -1,4 +1,4 @@
-<app-navigation></app-navigation>
-<div class="main-content">
+<app-navigation *ngIf="isLoggedIn"></app-navigation>
+<div [ngClass]="{'main-content': isLoggedIn}">
   <router-outlet></router-outlet>
 </div>

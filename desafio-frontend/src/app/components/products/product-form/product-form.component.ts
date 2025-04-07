@@ -97,7 +97,6 @@ export class ProductFormComponent implements OnInit {
     this.loading = true;
     this.productService.getProductById(id).subscribe({
       next: (product) => {
-        console.log(product.codeInt)
         this.productForm.patchValue({
           name: product.name,
           description: product.description || '',

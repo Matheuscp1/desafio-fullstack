@@ -1,0 +1,23 @@
+.container {
+  padding: 20px;
+}
+
+.user-card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.user-description, .user-products {
+  margin-top: 20px;
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 50px;
+}

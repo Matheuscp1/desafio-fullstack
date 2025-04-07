@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/authenticantion/auth.service';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -19,4 +20,16 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  
+  constructor(private auth: AuthService) { }
+    public role:string = ''
+     ngOnInit(): void {
+     this.getRole()
+    }
+
+  getRole(){
+    this.auth.user$.subscribe(user => {
+      this.role = user.role;
+    });
+  }
 }

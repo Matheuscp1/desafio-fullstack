@@ -32,5 +32,20 @@
         <a mat-raised-button color="primary" routerLink="/categories">Go to Categories</a>
       </mat-card-actions>
     </mat-card>
+
+    <mat-card class="feature-card" *ngIf="this.role == 'admin'">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>person_outline</mat-icon>
+        <mat-card-title>Users</mat-card-title>
+        <mat-card-subtitle>Manage your user</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>View, create, update, and delete users.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-raised-button color="primary" routerLink="/users">Go to Users</a>
+      </mat-card-actions>
+    </mat-card>
   </div>
 </div>
+

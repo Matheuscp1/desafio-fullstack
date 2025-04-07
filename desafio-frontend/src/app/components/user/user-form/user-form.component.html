@@ -1,0 +1,61 @@
+<div class="container">
+  <mat-card class="user-form-card">
+    <mat-card-header>
+      <mat-card-title>{{
+        isEditMode ? "Edit user" : "Create New user"
+      }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="loading" class="loading-spinner">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+        <app-custom-input
+          [type]="'text'"
+          formControlName="name"
+          placeholder="Name"
+        >
+          Name
+        </app-custom-input>
+
+        <app-custom-input
+          [type]="'email'"
+          formControlName="email"
+          placeholder="email"
+        >
+          Email
+        </app-custom-input>
+
+        <app-custom-input
+          [type]="'password'"
+          formControlName="password"
+          placeholder="password"
+          *ngIf="!isEditMode"
+        >
+          Password
+        </app-custom-input>
+
+        <app-custom-select formControlName="role">
+          Role
+          <option value="USER" active>USER</option>
+          <option value="ADMIN">ADMIN</option>
+        </app-custom-select>
+
+        <div class="button-container">
+          <button type="button" mat-button [routerLink]="['/users']">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="userForm.invalid"
+          >
+            {{ isEditMode ? "Update" : "Create" }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

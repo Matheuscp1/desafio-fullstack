@@ -2,9 +2,15 @@
   <span>Product-Category Management</span>
   <span class="spacer"></span>
   <a mat-button routerLink="/products" routerLinkActive="active">
+    <mat-icon>person_outline</mat-icon> {{this.username}}
+  </a>
+  <a mat-button routerLink="/products" routerLinkActive="active">
     <mat-icon>inventory_2</mat-icon> Products
   </a>
   <a mat-button routerLink="/categories" routerLinkActive="active">
     <mat-icon>category</mat-icon> Categories
+  </a>
+  <a mat-button (click)="logout()" routerLinkActive="active">
+    <mat-icon>exit_to_app</mat-icon> Logout
   </a>
 </mat-toolbar>

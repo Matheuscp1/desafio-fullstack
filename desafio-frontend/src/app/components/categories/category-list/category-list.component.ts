@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/authenticantion/auth.service';
 import { PaginationComponent } from './../../pagination/pagination.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,10 +27,10 @@ import { CategoryService } from '../../../services/category.service';
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    PaginationComponent
+    PaginationComponent,
   ],
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.scss']
+  styleUrls: ['./category-list.component.scss'],
 })
 export class CategoryListComponent implements OnInit {
   categories: Category[] = [];
@@ -39,43 +40,60 @@ export class CategoryListComponent implements OnInit {
   size = 5;
   currentPage = 0;
   totalPages = 10;
+  public role: string = '';
 
   constructor(
     private categoryService: CategoryService,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    this.getRole();
+  }
+
+  getRole() {
+    this.auth.user$.subscribe((user) => {
+      this.role = user.role;
+    });
   }
 
   loadCategories(): void {
     this.loading = true;
-    this.categoryService.getAllCategories(this.currentPage, this.size).subscribe({
-      next: (data) => {
-        this.pages = data.totalPages;
-        this.categories = data.content;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error fetching categories', error);
-        this.snackBar.open('Error loading categories', 'Close', { duration: 3000 });
-        this.loading = false;
-      }
-    });
+    this.categoryService
+      .getAllCategories(this.currentPage, this.size)
+      .subscribe({
+        next: (data) => {
+          this.pages = data.totalPages;
+          this.categories = data.content;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error fetching categories', error);
+          this.snackBar.open('Error loading categories', 'Close', {
+            duration: 3000,
+          });
+          this.loading = false;
+        },
+      });
   }
 
   deleteCategory(id: number): void {
     if (confirm('Are you sure you want to delete this category?')) {
       this.categoryService.deleteCategory(id).subscribe({
         next: () => {
-          this.snackBar.open('Category deleted successfully', 'Close', { duration: 3000 });
+          this.snackBar.open('Category deleted successfully', 'Close', {
+            duration: 3000,
+          });
           this.loadCategories();
         },
         error: (error) => {
           console.error('Error deleting category', error);
-          this.snackBar.open('Error deleting category', 'Close', { duration: 3000 });
-        }
+          this.snackBar.open('Error deleting category', 'Close', {
+            duration: 3000,
+          });
+        },
       });
     }
   }

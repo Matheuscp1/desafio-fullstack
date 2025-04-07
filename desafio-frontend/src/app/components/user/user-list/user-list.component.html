@@ -1,12 +1,12 @@
 <div class="container">
-  <mat-card class="category-card">
+  <mat-card class="user-card">
     <mat-card-header>
       <mat-card-title>Categories</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="button-container"  *ngIf="this.role == 'admin'">
-        <a [routerLink]="['/categories/new']" mat-raised-button color="primary">
-          <mat-icon>add</mat-icon> Add New Category
+      <div class="button-container">
+        <a [routerLink]="['/users/new']" mat-raised-button color="primary">
+          <mat-icon>add</mat-icon> Add New User
         </a>
       </div>
 
@@ -14,32 +14,37 @@
         <mat-spinner></mat-spinner>
       </div>
 
-      <table mat-table [dataSource]="categories" class="mat-elevation-z8" *ngIf="!loading">
+      <table mat-table [dataSource]="users" class="mat-elevation-z8" *ngIf="!loading">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>ID</th>
-          <td mat-cell *matCellDef="let category">{{ category.id }}</td>
+          <td mat-cell *matCellDef="let user">{{ user.id }}</td>
         </ng-container>
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef="let category">{{ category.name }}</td>
+          <td mat-cell *matCellDef="let user">{{ user.name }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="description">
-          <th mat-header-cell *matHeaderCellDef>Description</th>
-          <td mat-cell *matCellDef="let category">{{ category.description }}</td>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let user">{{ user.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Role</th>
+          <td mat-cell *matCellDef="let user">{{ user.role }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
-          <td mat-cell *matCellDef="let category">
-            <a [routerLink]="['/categories', category.id]" mat-icon-button color="primary" matTooltip="View Details">
+          <td mat-cell *matCellDef="let user">
+            <a [routerLink]="['/users', user.id]" mat-icon-button color="primary" matTooltip="View Details">
               <mat-icon>visibility</mat-icon>
             </a>
-            <a *ngIf="this.role == 'admin'" [routerLink]="['/categories', category.id, 'edit']" mat-icon-button color="accent" matTooltip="Edit">
+            <a [routerLink]="['/users', user.id, 'edit']" mat-icon-button color="accent" matTooltip="Edit">
               <mat-icon>edit</mat-icon>
             </a>
-            <button  *ngIf="this.role == 'admin'" mat-icon-button color="warn" (click)="deleteCategory(category.id)" matTooltip="Delete">
+            <button mat-icon-button color="warn" (click)="deleteUser(user.id)" matTooltip="Delete">
               <mat-icon>delete</mat-icon>
             </button>
           </td>
@@ -49,8 +54,8 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <div *ngIf="!loading && categories.length === 0" class="no-data">
-        No categories found.
+      <div *ngIf="!loading && users.length === 0" class="no-data">
+        No users found.
       </div>
     </mat-card-content>
   </mat-card>

@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/authenticantion/auth.service';
 import { PaginationComponent } from './../../pagination/pagination.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -46,14 +47,23 @@ export class ProductListComponent implements OnInit {
   size = 5;
   currentPage = 0;
   totalPages = 10;
+  public role: string = '';
 
   constructor(
     private productService: ProductService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private auth: AuthService
   ) {}
+
+  getRole() {
+    this.auth.user$.subscribe((user) => {
+      this.role = user.role;
+    });
+  }
 
   ngOnInit(): void {
     this.loadProducts();
+    this.getRole();
   }
 
   loadProducts(): void {
