@@ -29,6 +29,8 @@ public class ProductServiceTest {
     @InjectMocks
     private ProductService productService;
 
+
+
     private ProductInputDTO product;
 
     @BeforeEach
@@ -39,12 +41,12 @@ public class ProductServiceTest {
         product.setPrice(new BigDecimal("19.99"));
         product.setStatus(true);
         product.setCode("TP001");
+        product.setCategoryId(1L);
     }
 
     @Test
     void shouldSaveProduct() {
         Product entitie = product.toEntitie();
-        entitie.setId(1L);
         when(productRepository.save(any(Product.class))).thenReturn(entitie);
 
         Product savedProduct = productService.save(product);
@@ -72,7 +74,9 @@ public class ProductServiceTest {
 
     @Test
     void shouldGetProductById() {
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product.toEntitie()));
+        Product entitie = product.toEntitie();
+        entitie.setId(1L);
+        when(productRepository.findById(1L)).thenReturn(Optional.of(entitie));
 
         Optional<Product> foundProduct = productService.findById(1L);
 
