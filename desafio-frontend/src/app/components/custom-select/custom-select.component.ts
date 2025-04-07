@@ -32,6 +32,8 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() size: string = 'w-64'; // Tamanho padrão
   @Input()
   type: string = '';
+  @Input() disabled:boolean = false; // Tamanho padrão
+
   @Input()
   formControlName: string = '';
   value: string = '';

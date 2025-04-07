@@ -77,7 +77,7 @@ export class ProductFormComponent implements OnInit {
       price: [0, [Validators.required, Validators.min(0)]],
       status: [true, [Validators.required]],
       code: [''],
-      categoryId: ['']
+      categoryId: ['',[Validators.required]]
     });
   }
 

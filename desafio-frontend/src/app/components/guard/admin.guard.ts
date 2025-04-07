@@ -12,7 +12,7 @@ class AdminService {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
       let token = this.localService.decodeToken()
-      if(this.localService.asSession() && token.role != "user"){
+      if(this.localService.asSession() && token.role != "USER"){
         return true
       }
       this.router.navigateByUrl("/")

@@ -1,7 +1,6 @@
-import { CustomSelectComponent } from './../../custom-select/custom-select.component';
-import { User } from './../../../models/user.model';
+import { CustomSelectComponent } from '../../custom-select/custom-select.component';
+import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service ';
-import { CustomTextAreaComponent } from '../../custom-textarea/custom-textarea.component';
 import { CustomInputComponent } from '../../custom-input/custom-input.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -35,12 +34,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     CustomInputComponent,
     CustomSelectComponent,
   ],
-  templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss'],
+  templateUrl: './user-form-context.component.html',
+  styleUrls: ['./user-form-context.component.scss'],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormContextComponent implements OnInit {
   userForm!: FormGroup;
-  userId: number | null = null;
+  userId:any;
   isEditMode = false;
   loading = false;
 
@@ -54,31 +53,24 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-
-    this.route.params.subscribe((params) => {
-      if (params['id'] && params['id'] !== 'new') {
-        this.userId = +params['id'];
-        this.isEditMode = true;
-        this.loaduser(this.userId);
-        this.userForm.get('password')?.clearValidators();
-        this.userForm.get('password')?.updateValueAndValidity();
-      }
-    });
+    this.loaduser()
   }
 
   initForm(): void {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      name: [''],
+      email: [''],
       password: ['', [Validators.required]],
-      role: ['USER', [Validators.required]],
+      role: ['USER'],
     });
   }
 
-  loaduser(id: number): void {
+  loaduser(): void {
     this.loading = true;
-    this.userService.getUserById(id).subscribe({
+    this.userService.getContext().subscribe({
       next: (user) => {
+
+        this.userId = user.id
         this.userForm.patchValue({
           name: user.name,
           email: user.email,
@@ -108,9 +100,8 @@ export class UserFormComponent implements OnInit {
       ...this.userForm.value,
     };
 
-    if (this.isEditMode && this.userId) {
-      delete userData.password;
-      this.userService.updateUser(this.userId, userData).subscribe({
+    if (this.userId) {
+      this.userService.updatePassowrd(this.userId, userData).subscribe({
         next: (_) => {
           this.snackBar.open('user updated successfully', 'Close', {
             duration: 3000,
@@ -121,23 +112,6 @@ export class UserFormComponent implements OnInit {
         error: (error) => {
           console.error('Error updating user', error);
           this.snackBar.open('Error updating user', 'Close', {
-            duration: 3000,
-          });
-          this.loading = false;
-        },
-      });
-    } else {
-      this.userService.createtUser(userData).subscribe({
-        next: (_) => {
-          this.snackBar.open('user created successfully', 'Close', {
-            duration: 3000,
-          });
-          this.loading = false;
-          this.router.navigate(['/users']);
-        },
-        error: (error) => {
-          console.error('Error creating user', error);
-          this.snackBar.open('Error creating user', 'Close', {
             duration: 3000,
           });
           this.loading = false;

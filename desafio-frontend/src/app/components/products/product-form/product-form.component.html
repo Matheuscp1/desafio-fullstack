@@ -45,6 +45,7 @@
 
         <app-custom-select formControlName="categoryId">
           Category
+          <option value=""></option>
           <option
             [value]="category.id"
             [selected]="productForm.get('categoryId')?.value == category.id"

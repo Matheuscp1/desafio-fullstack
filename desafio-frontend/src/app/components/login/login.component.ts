@@ -27,6 +27,9 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.construirForm();
+    if(!this.localStore.asSession()){
+      this.localStore.clearData()
+    }
   }
 
   construirForm(){

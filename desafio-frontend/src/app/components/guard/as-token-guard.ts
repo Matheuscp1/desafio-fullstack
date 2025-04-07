@@ -13,7 +13,7 @@ class AuthService {
       if(this.localService.asSession()){
         return true
       }
-      console.log(this.localService.asSession())
+      this.localService.clearData()
       this.router.navigateByUrl("/login")
       return false
   }

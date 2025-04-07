@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/authenticantion/auth.service';
 import { CustomSelectComponent } from './../../custom-select/custom-select.component';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,19 +33,29 @@ export class ProductDetailComponent implements OnInit {
   productId!: number;
   product: Product | null = null;
   loading = true;
+  public role: string = '';
+
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private auth: AuthService
   ) { }
+
+  getRole() {
+    this.auth.user$.subscribe((user) => {
+      this.role = user.role;
+    });
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.productId = +params['id'];
       this.loadProduct();
     });
+    this.getRole();
   }
 
   loadProduct(): void {

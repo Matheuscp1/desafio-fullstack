@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/authenticantion/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -33,18 +34,27 @@ export class CategoryDetailComponent implements OnInit {
   categoryId!: number;
   category: Category | null = null;
   loading = true;
+  public role: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private categoryService: CategoryService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.categoryId = +params['id'];
       this.loadCategory();
+    });
+    this.getRole()
+  }
+
+  getRole() {
+    this.auth.user$.subscribe((user) => {
+      this.role = user.role;
     });
   }
 

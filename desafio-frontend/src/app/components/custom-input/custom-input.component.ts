@@ -26,6 +26,7 @@ export class CustomInputComponent implements OnInit, ControlValueAccessor {
     required: "Campo Obrigatorio",
     email: "Email invalido"
   }
+  @Input() disabled:boolean = false; // Tamanho padrão
 
   @Input() size: string = 'w-64'; // Tamanho padrão
 

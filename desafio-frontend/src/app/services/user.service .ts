@@ -32,4 +32,10 @@ export class UserService {
   deleteUser(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/user/${id}`);
   }
+  getContext(): Observable<User> {
+    return this.http.get<User>(`${this.apiUrl}/auth/context`);
+  }
+  updatePassowrd(id: number, user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/user/password`, user);
+  }
 }

@@ -1,6 +1,6 @@
 <div class="w-full  mb-10 mt-5">
     <label [for]="formControlName" class="relative cursor-pointer">
-        <select class="h-14 w-full border-gray-500 px-6 text-lg input-bg border-white border-2 rounded-lg border-opacity-50
+        <select   [disabled]="disabled" class="h-14 w-full border-gray-500 px-6 text-lg input-bg border-white border-2 rounded-lg border-opacity-50
         outline-none focus:border-blue-500 placeholder-gray-300 focus:placeholder-opacity-100 placeholder-black
          placeholder-opacity-0 transition duration-200 border-bg"
         [(ngModel)]="value" [id]="formControlName" (change)="onChange(value)" (blur)="onTouched()"
