@@ -46,7 +46,7 @@ public class AuthenticationController implements AuthControllerOpenApi {
     }
 
     @Override
-    @PostMapping("auth/context")
+    @GetMapping("auth/context")
     public UserDTO context() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() != null && authentication.getPrincipal() != "anonymousUser") {
